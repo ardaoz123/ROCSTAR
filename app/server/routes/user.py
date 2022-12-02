@@ -44,8 +44,8 @@ async def update_user_data(id: str, req: UpdateUsers = Body(...)):
     updated_user = await update_user(id, req)
     if updated_user:
         return ResponseModel(
-            "user with ID: {} name update is successful".format(id),
-            "user name updated successfully",
+            "user with ID: {} info update is successful".format(id),
+            "user's information updated successfully",
         )
     return ErrorResponseModel(
         "An error occurred",

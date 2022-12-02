@@ -4,7 +4,7 @@ from typing import Optional, List
 import motor.motor_asyncio
 from decouple import config
 
-MONGODB_URL = "mongodb://localhost:27017"
+MONGODB_URL = config('MONGODB_DETAILS')
 
 #MongoDB URI to connect to the MongoDB cluster
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URL)
@@ -44,7 +44,7 @@ async def retrieve_user(id: str) -> dict:  # type: ignore
 
 
 # Update a user with a matching ID
-async def update_user(id: str, data: dict):  # type: ignore
+async def update_user(id: str, data: dict): 
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
