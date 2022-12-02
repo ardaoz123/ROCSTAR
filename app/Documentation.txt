@@ -1,0 +1,10 @@
+Pydantic:
+-Field allows us to avoid using reserved keywords by being able to give aliases to fields.
+-Field(...) means it requires an input
+-Emailstr checks the input string and validates if it is a correct email
+-
+
+Stappenplan debug/dev:
+1. CD into the right directory 
+2. Run venv\Scripts\activate in the command line to enter virtual environment
+3. uvicorn server.app:app --reload to run the application where 
