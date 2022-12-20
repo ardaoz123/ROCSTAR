@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-
+from pydantic import Field
 from beanie import PydanticObjectId
 
 from ..database import (
@@ -25,7 +25,7 @@ async def add_user(user: Users = Body(...)):
     return {
         "status_code": 200,
         "response_type": "success",
-        "description": "Student created successfully",
+        "description": "user created successfully",
         "data": new_user
     }
 
@@ -36,59 +36,59 @@ async def users():
     return {
         "status_code": 200,
         "response_type": "success",
-        "description": "Students data retrieved successfully",
+        "description": "user data retrieved successfully",
         "data": all_users
     }
 
 
-@router.get("/{id}", response_description="User data retrieved", response_model=Response)
+@router.get("/{user_id}", response_description="User data retrieved", response_model=Response)
 async def get_user_data(user_id: PydanticObjectId):
-    student = await get_user(user_id)
-    if student:
+    user = await get_user(user_id)
+    if user:
         return {
             "status_code": 200,
             "response_type": "success",
-            "description": "Student data retrieved successfully",
-            "data": student
+            "description": "User data retrieved successfully",
+            "data": user
         }
     return {
         "status_code": 404,
         "response_type": "error",
-        "description": "Student doesn't exist",
+        "description": "user doesn't exist",
     }
 
 
-@router.put("/{id}", response_model=Response, response_description="User data updated")
+@router.put("/{user_id}", response_model=Response, response_description="User data updated")
 async def update_user(user_id: PydanticObjectId, req: UpdateUsers = Body(...)):
     updated_user = await update_user_data(user_id, req.dict())
     if updated_user:
         return {
             "code": 200,
             "message": "success",
-            "description": "Student with ID: {} updated".format(id),
+            "description": "User with ID: {} updated".format(id),
             "data": updated_user
         }
     return {
         "status_code": 404,
         "response_type": "error",
-        "description": "An error occurred. Student with ID: {} not found".format(id),
+        "description": "An error occurred. User with ID: {} not found".format(id),
         "data": False
     }
 
 
-@router.delete("/{id}", response_description="Student data deleted from the database")
+@router.delete("/{user_id}", response_description="User data deleted from the database")
 async def delete_student_data(user_id: PydanticObjectId):
-    deleted_student = await delete_user(user_id)
-    if deleted_student:
+    deleted_user = await delete_user(user_id)
+    if deleted_user:
         return {
             "status_code": 200,
             "response_type": "success",
-            "description": "Student with ID: {} removed".format(id),
-            "data": deleted_student
+            "description": "User with ID: {} removed".format(id),
+            "data": deleted_user
         }
     return {
         "status_code": 404,
         "response_type": "error",
-        "description": "Student with id {0} doesn't exist".format(id),
+        "description": "User with id {0} doesn't exist".format(id),
         "data": False
     }

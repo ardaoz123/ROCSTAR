@@ -2,13 +2,15 @@
 from typing import Optional, Union, Any
 from pydantic import BaseModel, Field, EmailStr
 from beanie import Document
+import uuid
 
 
 class Users(Document):
+    uuid: str = Field(default=str(uuid.uuid4()))
     fullName: Union[str, None] = None
     email: Union[str, None] = None
     age: int = Field(gt=12, lt=99)
-    student: bool
+    is_student: Optional[bool]
     is_teacher: Optional[bool]
     is_admin: Optional[bool]
     schoolYear: Optional[int] = Field(gt=0, lt=6)
@@ -47,7 +49,6 @@ class UpdateUsers(BaseModel):
                 "student": "True or False",
                 "is_teacher": "True or False",
                 "is_admin": "True or False",
-                "schoolYear": "Fill in a number"
             }
         }
 

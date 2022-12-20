@@ -3,21 +3,32 @@ from fastapi import APIRouter, Body
 from beanie import PydanticObjectId
 
 from ..database import (
-    get_workflow,
+    get_all_items,
 )
 
-from ..models.workflow import (
+from ..models.Item import (
     Response,
-    Workflows,
-    UpdateWorkflow,
+    Item,
+    UpdateItem,
 )
 
 router = APIRouter()
 
 
+@router.get("/", response_description="All items retrieved")
+async def items():
+    all_items = await get_all_items()
+    return {
+        "status_code": 200,
+        "response_type": "success",
+        "description": "item data retrieved successfully",
+        "data": all_items
+    }
+
+""""
 @router.get("/{id}", response_description="workflow data retrieved", response_model=Response)
-async def get_workflow_data(workflow_id: PydanticObjectId):
-    workflow = await get_workflow(workflow_id)
+async def get_item_data(item_id: PydanticObjectId):
+    workflow = await get_workflow(item_id)
     if workflow:
         return {
             "status_code": 200,
@@ -30,3 +41,4 @@ async def get_workflow_data(workflow_id: PydanticObjectId):
         "response_type": "error",
         "description": "workflow doesn't exist",
     }
+"""

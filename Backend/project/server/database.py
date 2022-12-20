@@ -2,9 +2,10 @@ from typing import List, Union
 import motor.motor_asyncio
 from decouple import config
 from beanie import init_beanie, PydanticObjectId
-from .models.workflow import Workflows
+from .models.Item import Item
 from .models.user import Users
 from fastapi import HTTPException
+from pymongo import MongoClient
 
 # MongoDB URI to connect to the MongoDB cluster
 MONGODB_URL = config('MONGODB_DETAILS')
@@ -13,14 +14,18 @@ MONGODB_URL = config('MONGODB_DETAILS')
 async def init_db():
     client = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URL)
     await init_beanie(database=client.ROCSTAR, document_models=[Users])
-    await init_beanie(database=client.todo, document_models=[Workflows])
+    await init_beanie(database=client.todo, document_models=[Item])
 
 
 # Helper methods to get instances
-async def get_workflow(workflow_id: PydanticObjectId) -> Workflows:
-    workflow = await Workflows.get(workflow_id)
-    if workflow:
-        return workflow
+async def get_all_items() -> List[Item]:
+    items = await Item.all().to_list()
+    if not items:
+        raise HTTPException(
+            status_code=404,
+            detail="No users found"
+        )
+    return items
 
 
 async def get_user(user_id: PydanticObjectId) -> Users:

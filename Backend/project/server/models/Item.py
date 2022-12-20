@@ -1,10 +1,11 @@
 # import libraries
 from typing import Optional, Union, Any
 from pydantic import BaseModel, Field, EmailStr
-from beanie import Document
+from beanie import Document, Link
+from uuid import uuid4, UUID
 
 
-class Workflows(Document):
+class Item(Document):
     isComplete: bool
     summary: Union[str, None] = None
     owner_id: Union[str, None] = None
@@ -13,19 +14,16 @@ class Workflows(Document):
     class Config:
         schema_extra = {
             "example": {
-                "fullName": "",
-                "email": "",
-                "age": "",
-                "student": "",
-                "is_teacher": "",
-                "is_admin": "",
-                "schoolYear": ""
+                "Completed?": "",
+                "summary": "",
+                "owner_id": "",
+                "priority": ""
             }
         }
 
 
 # define model named students
-class UpdateWorkflow(BaseModel):
+class UpdateItem(BaseModel):
     isComplete: Optional[bool]
     summary: Optional[str]
     owner_id: Optional[str]
@@ -34,13 +32,10 @@ class UpdateWorkflow(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "fullName": "",
-                "email": "",
-                "age": "",
-                "student": "",
-                "is_teacher": "",
-                "is_admin": "",
-                "schoolYear": ""
+                "Completed?": "",
+                "summary": "",
+                "owner_id": "",
+                "priority": ""
             }
         }
 
